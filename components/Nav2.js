@@ -15,21 +15,22 @@ const Nav = styled(Flex)`
     background-color: none;
     left: 0;
     right: 0;
-    padding: 20px 0;
+    padding: 10px 0;
     position: fixed;
     top: 0;
     z-index: 99;
 `
 
-const Button = styled('button')`
-    height: 44px;
-    min-width: 120px;
+const Button = styled(Flex)`
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    min-width: 82px;
     font-weight: 500;
     line-height: 1;
     background: ${({ bg }) => bg || '#039be5'};
     border-radius: 4px;
     font-size: ${({ size }) => size || '14px'};
-    padding: 10px 20px;
     color: ${({ color }) => color || '#fff'};
     cursor: pointer;
     border: none;
@@ -37,64 +38,14 @@ const Button = styled('button')`
         outline: none;
     }
     &:hover {
-        color: #409eff;
+        color: #333;
     }
 `
 export const BgButton = styled(Button)`
+    border: 1px solid #fff;
     &:hover {
         color: #fff;
-        background: rgb(3, 155, 229, 0.7);
-    }
-`
-const Submit = styled(Button)`
-    width: 100%;
-    background: #039be5;
-    opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
-    &:hover {
-        color: #fff;
-        background: #039be5;
-    }
-`
-const ContactWrap = styled(Flex)`
-    background: #fff;
-    max-width: 560px;
-    min-height: 500px;
-    border-radius: 10px;
-    position: relative;
-    width: 100%;
-`
-const CloseIcon = styled(Image)`
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    cursor: pointer;
-`
-const Input = styled('input')`
-    background-color: rgb(248, 248, 248);
-    border: none;
-    border-radius: 4px;
-    height: 47px;
-    width: 100%;
-    padding-left: 20px;
-    &:focus {
-        outline: none;
-    }
-`
-const Title = styled('h4')`
-    color: rgb(32, 34, 46);
-    font-size: 22px;
-    margin: 0 0 40px;
-    padding-top: 20px;
-    text-align: center;
-`
-const TextArea = styled('textarea')`
-    background-color: rgb(248, 248, 248);
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    min-height: 80px;
-    &:focus {
-        outline: none;
+        background: #5e52ff;
     }
 `
 const Tips = styled(Box)`
@@ -147,94 +98,6 @@ class App extends React.Component {
         }, 1)
     }
 
-    toggleContactModal() {
-        this.setState(prevState => ({
-            showContactModal: !prevState.showContactModal,
-        }))
-    }
-
-    handleChange(type, e) {
-        this.setState({
-            [type]: e.target.value,
-        })
-    }
-
-    handleBlur(type, e) {
-        if (!e.target.value) {
-            this.setState({
-                [`show${type}Tips`]: true,
-                tips: 'Required',
-            })
-            return
-        }
-        if (type === 'Email') {
-            this.testEmail(e.target.value)
-        }
-    }
-
-    testEmail(email) {
-        if (
-            !/^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/.test(email)
-        ) {
-            this.setState({
-                showEmailTips: true,
-                tips: 'Please enter the correct email',
-            })
-            return false
-        }
-        return true
-    }
-
-    async handleSubmit() {
-        const { name, email, phone, help, showContactModal } = this.state
-        if (!name) {
-            this.setState({
-                showNameTips: true,
-                tips: 'Required',
-            })
-            return
-        }
-        if (!email) {
-            this.setState({
-                showEmailTips: true,
-                tips: 'Required',
-            })
-            return
-        }
-        if (!this.testEmail(email)) {
-            return
-        }
-        const params = {}
-        const data = {
-            name,
-            email,
-        }
-        if (phone) {
-            params.phone = phone
-        }
-        if (help) {
-            data.purpose = help
-        }
-        this.setState({
-            isLoading: true,
-        })
-        const res = await request({
-            url: '/api/function/contactUs',
-            method: 'post',
-            data,
-            params,
-        })
-        if (res.code === 0) {
-            this.setState({
-                showContactModal: false,
-            })
-        }
-        this.setState({
-            isLoading: false,
-        })
-        console.log(res)
-    }
-
     goToDashboard() {
         if (getToken()) {
             window.location.assign('/dashboard/#/allApplications')
@@ -271,93 +134,34 @@ class App extends React.Component {
                         alt="apkchina-logo"
                     />
                     <Flex
-                        justifyContent={['center', 'center', 'flex-end']}
+                        justifyContent={['center', 'center', 'space-around']}
                         alignItems="center"
                         width={[1, 1, 1 / 2]}
                         mt={[10, 10, 0]}
                     >
-                        <Button
-                            bg="#fff"
-                            color="#000"
-                            onClick={this.toggleContactModal.bind(this)}
-                            size="16px"
-                        >
-                            Contact us
+                        <Button bg="none" size="14px">
+                            Service
                         </Button>
-                        <Box ml={40}>
-                            <BgButton onClick={this.goToDashboard.bind(this)}>
+                        <Button bg="none" size="14px">
+                            Resource
+                        </Button>
+                        <Button bg="none" size="14px">
+                            Pricing
+                        </Button>
+                        <Button bg="none" size="14px">
+                            Contact
+                        </Button>
+                        <Box>
+                            <BgButton
+                                size="14px"
+                                bg="none"
+                                onClick={this.goToDashboard.bind(this)}
+                            >
                                 Dashborad
                             </BgButton>
                         </Box>
                     </Flex>
                 </Flex>
-                <Modal isOpen={showContactModal}>
-                    <ContactWrap>
-                        <CloseIcon
-                            width={30}
-                            height={30}
-                            src={close}
-                            onClick={this.toggleContactModal.bind(this)}
-                        />
-                        <Flex
-                            width={1}
-                            px={30}
-                            pt={20}
-                            pb={40}
-                            flexDirection="column"
-                        >
-                            <Title>Contact Us</Title>
-                            <Box>
-                                <Input
-                                    placeholder="Name *"
-                                    value={name}
-                                    onChange={this.handleChange.bind(
-                                        this,
-                                        'name'
-                                    )}
-                                    onBlur={this.handleBlur.bind(this, 'Name')}
-                                />
-                                {showNameTips && <Tips>{tips}</Tips>}
-                            </Box>
-                            <Box my={25}>
-                                <Input
-                                    placeholder="Email *"
-                                    value={email}
-                                    onChange={this.handleChange.bind(
-                                        this,
-                                        'email'
-                                    )}
-                                    onBlur={this.handleBlur.bind(this, 'Email')}
-                                />
-                                {showEmailTips && <Tips>{tips}</Tips>}
-                            </Box>
-
-                            <Box mb={25}>
-                                <Input
-                                    placeholder="Phone number"
-                                    value={phone}
-                                    onChange={this.handleChange.bind(
-                                        this,
-                                        'phone'
-                                    )}
-                                />
-                            </Box>
-                            <TextArea
-                                placeholder="How can we help you?"
-                                value={help}
-                                onChange={this.handleChange.bind(this, 'help')}
-                            />
-                            <Box mt={25}>
-                                <Submit
-                                    onClick={this.handleSubmit.bind(this)}
-                                    disabled={isLoading}
-                                >
-                                    {isLoading ? 'Please Waiting' : 'Submit'}
-                                </Submit>
-                            </Box>
-                        </Flex>
-                    </ContactWrap>
-                </Modal>
             </Nav>
         )
     }

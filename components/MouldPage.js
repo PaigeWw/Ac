@@ -5,31 +5,18 @@ import Link from 'next/link'
 
 import Head from './Head'
 import Nav2, { BgButton } from './Nav2'
-import Modal from './Modal'
+import CustomerProblems from './CustomerProblems'
+import OurService from './OurService'
 import Image from './Image'
 
 import { getToken } from '../utils/auth'
 import GA from '../utils/ga'
 
-import screenshot1 from '../images/screenshot_1.png'
-import screenshot2 from '../images/screenshot_2.svg'
-import screenshot3 from '../images/screenshot_3.png'
-import maitain from '../images/maitain.png'
-import play from '../images/play.png'
-import test from '../images/test.png'
-import service from '../images/service.png'
-import local from '../images/local.png'
-import work from '../images/work.png'
-import symbol from '../images/symbol.png'
-import close from '../images/close.png'
 import email from '../images/email.png'
 import twitter from '../images/twitter.png'
 import quora from '../images/quora.png'
-import leftq from '../images/left-q.png'
-import rightq from '../images/right-q.png'
 import adress from '../images/adress.png'
 import logoGray from '../images/logo-grap.png'
-import illustration from '../images/illustration.png'
 
 injectGlobal`
   body {
@@ -43,16 +30,16 @@ injectGlobal`
   }
 `
 const Container = styled(Flex)`
-    background-image: url(${({bg}) => bg});
+    background-image: url(${({ bg }) => bg});
     background-repeat: no-repeat;
     background-size: 100% auto;
 `
 const BigContainer = styled(Flex)`
     margin: 0 auto;
+    margin-top: 582px;
     position: relative;
-    height: ${({ height }) => (height ? height + 'px' : '100%')};
+    max-width: 1040px;
 `
-
 
 const Bottom = styled(Flex)`
     background: rgb(32, 34, 46);
@@ -87,60 +74,11 @@ const BottomWrap = styled(Flex)`
     position: relative;
 `
 
-const JsonData = {
-    service: [
-        {
-            icon: maitain,
-            title: 'App Release and Maintenance',
-            alt: 'Release app china - maintenance',
-            subtitle:
-                'Launch/update/maintain your app in major Chinese app stores.',
-        },
-        {
-            icon: test,
-            title: 'App Testing',
-            alt: 'App test china - app test',
-            subtitle:
-                'High-quality manual testing in real China environment and mobile devices.',
-        },
-        {
-            icon: service,
-            title: 'App Customer Care',
-            alt: 'App customer care china - customer care',
-            subtitle:
-                'Professionally collect user feedbacks, reply to user reviews and assist resolve user problems.',
-        },
-        {
-            icon: local,
-            title: 'App Localization',
-            alt: 'App localization china - localization',
-            subtitle:
-                'Provide a complete solution for your app localization in China.',
-        },
-        {
-            icon: work,
-            title: 'App Outsourcing',
-            alt: 'App outsourcing china - outsourcing',
-            subtitle: 'outsource your app development to a team in China.',
-        },
-    ],
-    tabs: [
-        'Track your app statistics in major Chinese appstores, including app downloads, rating,reviews, keyword rank, category rank, etc.',
-
-        'Set up daily/monthly email notification aboutyour app or a notice for some specific events,making you better aware of your app status inChina.',
-
-        'Watch your competitor’s app performance orupdates to have a good and real-time knowledgeabout the market.',
-    ],
-    tabsScreenhots: [screenshot1, screenshot2, screenshot3],
-}
-
-
 class ModalPage extends React.Component {
     state = {
         activeTabIndex: 0,
         showVideoModal: false,
         search: '',
-        height: 400,
         isMobile: false,
     }
 
@@ -224,46 +162,25 @@ class ModalPage extends React.Component {
             isMobile,
         } = this.state
 
-        const  {
+        const {
             title,
             bg,
             cProblems,
             service,
-            serviceSteps
+            serviceSteps,
         } = this.props.appdata
-
 
         return (
             <Container justifyContent="center" flexDirection="column" bg={bg}>
-                {/*<Modal isOpen={showVideoModal}>*/}
-                    {/*<IframeWrap width={1}>*/}
-                        {/*<CloseIcon mr={['40px', 0]}>*/}
-                            {/*<Image*/}
-                                {/*width={30}*/}
-                                {/*height={30}*/}
-                                {/*src={close}*/}
-                                {/*onClick={this.toggleVideoModal.bind(*/}
-                                    {/*this,*/}
-                                    {/*false*/}
-                                {/*)}*/}
-                            {/*/>*/}
-                        {/*</CloseIcon>*/}
-                        {/*<Iframe*/}
-                            {/*src="https://www.youtube.com/embed/hJtqm79-vyg?rel=0&amp;autoplay=1"*/}
-                            {/*frameBorder="0"*/}
-                            {/*allow="autoplay; encrypted-media"*/}
-                            {/*allowfullscreen*/}
-                        {/*/>*/}
-                    {/*</IframeWrap>*/}
-                {/*</Modal>*/}
                 <Head />
                 <Nav2 />
                 <BigContainer
-                    width={4 / 5}
                     pt={[50, 150]}
-                    height={height}
-                    justifyContent="center"
+                    width={4 / 5}
+                    flexDirection="column"
                 >
+                    <CustomerProblems problems={cProblems} />
+                    <OurService service={service} />
                 </BigContainer>
                 <Bottom justifyContent="center">
                     <BottomWrap
