@@ -6,13 +6,15 @@ import Modal from '../components/Modal'
 
 import Image from './Image'
 import Logo from '../images/logo.png'
+import Logo1 from '../images/logo@2x.png'
 import close from '../images/close.png'
 import { getToken } from '../utils/auth'
 
 import request from '../utils/request'
 
 const Nav = styled(Flex)`
-    background-color: none;
+    background-color: ${({ navWhite }) => navWhite || '#fff'};
+    box-shadow: ${({ navWhite }) => navWhite || '0px 4px 8px 0px rgba(0,0,0,0.08)'};
     left: 0;
     right: 0;
     padding: 10px 0;
@@ -42,10 +44,10 @@ const Button = styled(Flex)`
     }
 `
 export const BgButton = styled(Button)`
-    border: 1px solid #fff;
+    border: 1px solid ${({ color }) => color || '#fff'};
     &:hover {
-        color: #fff;
-        background: #5e52ff;
+        color: ${({ color }) => '#fff' || '#fff'};
+        background: #53A1FF;
     }
 `
 const Tips = styled(Box)`
@@ -57,18 +59,23 @@ const Tips = styled(Box)`
 
 class App extends React.Component {
     state = {
-        showContactModal: false,
-        showNameTips: false,
-        showEmailTips: false,
-        name: '',
-        phone: '',
-        email: '',
-        help: '',
-        isLoading: false,
+        navWhite: true
     }
 
     componentDidMount() {
-        this.backTop()
+        this.backTop();
+        document.addEventListener('scroll', e => {
+            let currentY = document.documentElement.scrollTop || document.body.scrollTop;
+            if(currentY > 10) {
+                this.setState({
+                    navWhite: false
+                })
+            } else {
+                this.setState({
+                    navWhite: true
+                })
+            }
+        })
     }
 
     backTop() {
@@ -80,7 +87,7 @@ class App extends React.Component {
     scroll(currentY, targetY) {
         // 获取当前位置方法
         // const currentY = document.documentElement.scrollTop || document.body.scrollTop
-
+        console.log(currentY)
         // 计算需要移动的距离
         let needScrollTop = targetY - currentY
         let _currentY = currentY
@@ -108,18 +115,10 @@ class App extends React.Component {
 
     render() {
         const {
-            name,
-            phone,
-            email,
-            help,
-            showNameTips,
-            showEmailTips,
-            tips,
-            isLoading,
-            showContactModal,
+            navWhite,
         } = this.state
         return (
-            <Nav justifyContent="center">
+            <Nav justifyContent="center" navWhite={navWhite}>
                 <Flex
                     width={4 / 5}
                     alignItems="center"
@@ -129,7 +128,7 @@ class App extends React.Component {
                     <Image
                         width={150}
                         height={40}
-                        src={Logo}
+                        src={navWhite ? Logo1 : Logo}
                         onClick={this.backTop.bind(this)}
                         alt="apkchina-logo"
                     />
@@ -139,22 +138,23 @@ class App extends React.Component {
                         width={[1, 1, 1 / 2]}
                         mt={[10, 10, 0]}
                     >
-                        <Button bg="none" size="14px">
+                        <Button bg="none" size="14px" color={navWhite ? '#fff' : '#53A1FF'}>
                             Service
                         </Button>
-                        <Button bg="none" size="14px">
+                        <Button bg="none" size="14px" color={navWhite ? '#fff' : '#53A1FF'}>
                             Resource
                         </Button>
-                        <Button bg="none" size="14px">
-                            Pricing
+                        <Button bg="none" size="14px"color={navWhite ? '#fff' : '#53A1FF'}>
+                            Price
                         </Button>
-                        <Button bg="none" size="14px">
+                        <Button bg="none" size="14px" color={navWhite ? '#fff' : '#53A1FF'}>
                             Contact
                         </Button>
                         <Box>
                             <BgButton
                                 size="14px"
                                 bg="none"
+                                color={navWhite ? '#fff' : '#53A1FF'}
                                 onClick={this.goToDashboard.bind(this)}
                             >
                                 Dashborad

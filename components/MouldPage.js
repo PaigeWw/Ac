@@ -7,6 +7,7 @@ import Head from './Head'
 import Nav2, { BgButton } from './Nav2'
 import CustomerProblems from './CustomerProblems'
 import OurService from './OurService'
+import ServiceSteps from './ServiceSteps'
 import Image from './Image'
 
 import { getToken } from '../utils/auth'
@@ -33,20 +34,28 @@ const Container = styled(Flex)`
     background-image: url(${({ bg }) => bg});
     background-repeat: no-repeat;
     background-size: 100% auto;
+    align-items: center;
 `
 const BigContainer = styled(Flex)`
-    margin: 0 auto;
-    margin-top: 582px;
     position: relative;
     max-width: 1040px;
 `
+const Title = styled(Flex)`
+    position: absolute;
+    left: 10%;
+    top: 0;
+    font-weight: blod;
+    color: white;
+        word-break: break-all;
 
+`
 const Bottom = styled(Flex)`
     background: rgb(32, 34, 46);
     color: rgb(94, 96, 107);
     font-size: 14px;
     padding-top: 30px;
     position: relative;
+    width: 100%;
 `
 const Contact = styled('h4')`
     ont-size: 28px;
@@ -174,14 +183,18 @@ class ModalPage extends React.Component {
             <Container justifyContent="center" flexDirection="column" bg={bg}>
                 <Head />
                 <Nav2 />
+                <Title pt={['100px', '150px', '200px']} width={['150px', '430px']} fontSize={['24px','56px']}>{title}</Title>
                 <BigContainer
                     pt={[50, 150]}
+                    mt={'30%'}
                     width={4 / 5}
                     flexDirection="column"
                 >
                     <CustomerProblems problems={cProblems} />
                     <OurService service={service} />
+
                 </BigContainer>
+                <ServiceSteps serviceSteps={serviceSteps} />
                 <Bottom justifyContent="center">
                     <BottomWrap
                         width={4 / 5}

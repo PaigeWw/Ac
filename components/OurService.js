@@ -19,7 +19,7 @@ const OurService = ({ service }) => {
             size="24px"
             mb="120px"
         >
-            <Text py="48px" fontSize="24px">
+            <Text py="48px" fontSize={['34px','48px']} fontWeight={'bold'}>
                 Our Service
             </Text>
             <Wrapper
@@ -37,7 +37,7 @@ const OurService = ({ service }) => {
                         flexDirection={key % 2 ? 'row-reverse' : 'row'}
                         flexWrap="wrap"
                     >
-                        <Flex width={[1, 1, 1/2]} justifyContent={['center', key%2 ? 'flex-end' : 'flex-start']}>
+                        <Flex width={[1, 1, 1/2]} justifyContent={['center', 'center', key%2 ? 'flex-end' : 'flex-start']}>
                             <Image src={item.icon} zoom="0.5" />
                         </Flex>
                         <Flex width={[1, 1, 1/2]}>

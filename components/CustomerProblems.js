@@ -19,7 +19,7 @@ const CustomerProblems = ({ problems }) => {
             size="24px"
             mb="120px"
         >
-            <Text py="48px" fontSize="24px">
+            <Text py="48px" fontSize="24px" fontWeight={'bold'}>
                 Customer's Problems
             </Text>
             <Wrapper
@@ -31,8 +31,12 @@ const CustomerProblems = ({ problems }) => {
             >
                 {problems.map(item => (
                     <Item width={[1, 1, 1 / 3]}>
+
                         <Image src={item.icon} width="148" height="108" />
-                        <Info py="48px" fontSize="16px">
+                        <Text pt="40px" fontSize="16px" fontWeight={'bold'}>
+                            {item.subtitle}
+                        </Text>
+                        <Info pt="20px" pb="20px" fontSize="14px">
                             {item.info}
                         </Info>
                     </Item>
