@@ -7,6 +7,8 @@ import Modal from '../components/Modal'
 import Image from './Image'
 import Logo from '../images/logo.png'
 import Logo1 from '../images/logo@2x.png'
+import menu from '../images/menu.png'
+import menu1 from '../images/menu1.png'
 import close from '../images/close.png'
 import { getToken } from '../utils/auth'
 
@@ -14,7 +16,8 @@ import request from '../utils/request'
 
 const Nav = styled(Flex)`
     background-color: ${({ navWhite }) => navWhite || '#fff'};
-    box-shadow: ${({ navWhite }) => navWhite || '0px 4px 8px 0px rgba(0,0,0,0.08)'};
+    box-shadow: ${({ navWhite }) =>
+        navWhite || '0px 4px 8px 0px rgba(0,0,0,0.08)'};
     left: 0;
     right: 0;
     padding: 10px 0;
@@ -47,7 +50,27 @@ export const BgButton = styled(Button)`
     border: 1px solid ${({ color }) => color || '#fff'};
     &:hover {
         color: ${({ color }) => '#fff' || '#fff'};
-        background: #53A1FF;
+        background: #53a1ff;
+    }
+`
+
+const Menus = styled(Flex)`
+    & img {
+        display: none;
+    }
+    @media (max-width: 600px) {
+        overflow: hidden;
+        width: 40px;
+        height: 40px;
+        & img {
+            display: block;
+        }
+        & div {
+            display: none;
+        }
+        &:hover {
+            // background: yellow;
+        }
     }
 `
 const Tips = styled(Box)`
@@ -59,20 +82,21 @@ const Tips = styled(Box)`
 
 class App extends React.Component {
     state = {
-        navWhite: true
+        navWhite: true,
     }
 
     componentDidMount() {
-        this.backTop();
+        this.backTop()
         document.addEventListener('scroll', e => {
-            let currentY = document.documentElement.scrollTop || document.body.scrollTop;
-            if(currentY > 10) {
+            let currentY =
+                document.documentElement.scrollTop || document.body.scrollTop
+            if (currentY > 10) {
                 this.setState({
-                    navWhite: false
+                    navWhite: false,
                 })
             } else {
                 this.setState({
-                    navWhite: true
+                    navWhite: true,
                 })
             }
         })
@@ -114,15 +138,13 @@ class App extends React.Component {
     }
 
     render() {
-        const {
-            navWhite,
-        } = this.state
+        const { navWhite } = this.state
         return (
             <Nav justifyContent="center" navWhite={navWhite}>
                 <Flex
                     width={4 / 5}
                     alignItems="center"
-                    justifyContent={['center', 'center', 'space-between']}
+                    justifyContent={'space-between'}
                     flexWrap="wrap"
                 >
                     <Image
@@ -132,22 +154,42 @@ class App extends React.Component {
                         onClick={this.backTop.bind(this)}
                         alt="apkchina-logo"
                     />
-                    <Flex
+                    <Menus
                         justifyContent={['center', 'center', 'space-around']}
                         alignItems="center"
                         width={[1, 1, 1 / 2]}
-                        mt={[10, 10, 0]}
                     >
-                        <Button bg="none" size="14px" color={navWhite ? '#fff' : '#53A1FF'}>
+                        <Image
+                            width={40}
+                            height={40}
+                            src={navWhite ? menu1 : menu}
+                        />
+                        <Button
+                            bg="none"
+                            size="14px"
+                            color={navWhite ? '#fff' : '#53A1FF'}
+                        >
                             Service
                         </Button>
-                        <Button bg="none" size="14px" color={navWhite ? '#fff' : '#53A1FF'}>
+                        <Button
+                            bg="none"
+                            size="14px"
+                            color={navWhite ? '#fff' : '#53A1FF'}
+                        >
                             Resource
                         </Button>
-                        <Button bg="none" size="14px"color={navWhite ? '#fff' : '#53A1FF'}>
+                        <Button
+                            bg="none"
+                            size="14px"
+                            color={navWhite ? '#fff' : '#53A1FF'}
+                        >
                             Price
                         </Button>
-                        <Button bg="none" size="14px" color={navWhite ? '#fff' : '#53A1FF'}>
+                        <Button
+                            bg="none"
+                            size="14px"
+                            color={navWhite ? '#fff' : '#53A1FF'}
+                        >
                             Contact
                         </Button>
                         <Box>
@@ -160,7 +202,7 @@ class App extends React.Component {
                                 Dashborad
                             </BgButton>
                         </Box>
-                    </Flex>
+                    </Menus>
                 </Flex>
             </Nav>
         )
