@@ -28,14 +28,23 @@ const OurService = ({ service }) => {
                 pt="32px"
                 pb="75px"
                 justifyContent={['center', 'center', 'space-around']}
-                flexWrap="wrap"
+
             >
-                {service.map(item => (
-                    <Item width={1}>
-                        <Image src={item.icon} zoom="0.5" />
-                        <Info py="48px" fontSize="16px">
-                            {item.info}
-                        </Info>
+                {service.map((item, key) => (
+                    <Item
+                        width={1}
+                        justifyContent={['center', 'center', 'space-between']}
+                        flexDirection={key % 2 ? 'row-reverse' : 'row'}
+                        flexWrap="wrap"
+                    >
+                        <Flex width={[1, 1, 1/2]} justifyContent={['center', key%2 ? 'flex-end' : 'flex-start']}>
+                            <Image src={item.icon} zoom="0.5" />
+                        </Flex>
+                        <Flex width={[1, 1, 1/2]}>
+                            <Info py="48px" fontSize="16px">
+                                {item.info}
+                            </Info>
+                        </Flex>
                     </Item>
                 ))}
             </Wrapper>
@@ -60,4 +69,5 @@ const Item = styled(Flex)`
 const Info = styled(Text)`
     width: 100%;
     word-wrap: break-word;
+    text-align: start;
 `
